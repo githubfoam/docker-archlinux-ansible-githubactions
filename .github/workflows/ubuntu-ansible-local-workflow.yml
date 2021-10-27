@@ -1,4 +1,4 @@
-name: "archlinux ansible local CI workflow"
+name: "ubuntu linux ansible local CI workflow"
 
 
 on:
@@ -9,7 +9,7 @@ on:
 jobs:
 
   ubuntu-latest-job:
-    name: "docker archlinux ansible ubuntu 20.04"
+    name: "docker ubuntu2104 ansible ubuntu 20.04"
     runs-on: ubuntu-latest
     env:
       distribution: "archlinux" #https://hub.docker.com/_/archlinux
@@ -28,15 +28,15 @@ jobs:
         sudo apt-get install -y neofetch && neofetch   
     - name: "docker pull archlinux"
       run: sudo docker pull ${distribution}:${version}  && sudo docker image ls  
-    - name: "docker build archlinux"
+    - name: "docker build ubuntu2104"
       run: |
         # destroyed afterwards (use --rm )
         # all subsequent Dockerfile commands generate new images and the cache is not used
-        sudo docker build --no-cache --rm  -t archlinux:ansible . --file dockerfiles/Dockerfile.archlinux 
+        sudo docker build --no-cache --rm  -t ubuntu2104:ansible . --file dockerfiles/Dockerfile.ubuntu2104
         docker image ls
-        docker image history archlinux:ansible
+        docker image history ubuntu2104:ansible
         docker system df -v               
-        docker image inspect archlinux:ansible
+        docker image inspect ubuntu2104:ansible
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --syntax-check
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --check #dry-run
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml
