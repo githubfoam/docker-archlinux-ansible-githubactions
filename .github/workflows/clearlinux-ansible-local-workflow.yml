@@ -1,4 +1,4 @@
-name: "ubuntu linux ansible local CI workflow"
+name: "clearlinux ansible local CI workflow"
 
 
 on:
@@ -9,13 +9,13 @@ on:
 jobs:
 
   ubuntu-latest-job:
-    name: "docker ubuntu2104 ansible ubuntu 20.04"
+    name: "docker clearlinux ansible ubuntu 20.04"
     runs-on: ubuntu-latest
     env:
       distribution: "ubuntu" #https://hub.docker.com/_/archlinux
       version: "latest"
       # name: "archlinux:ansible"
-      name: "ubuntu2104:ansible"
+      name: "clearlinux:latest"
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
@@ -27,17 +27,17 @@ jobs:
         cat /etc/issue
         cat /etc/os-release
         sudo apt-get install -y neofetch && neofetch   
-    - name: "docker pull archlinux"
-      run: sudo docker pull ${distribution}:${version}  && sudo docker image ls  
-    - name: "docker build ubuntu2104"
+    # - name: "docker pull archlinux"
+    #   run: sudo docker pull ${distribution}:${version}  && sudo docker image ls  
+    - name: "docker build clearlinux"
       run: |
         # destroyed afterwards (use --rm )
         # all subsequent Dockerfile commands generate new images and the cache is not used
-        sudo docker build --no-cache --rm  -t ubuntu2104:ansible . --file dockerfiles/Dockerfile.ubuntu2104
+        sudo docker build --no-cache --rm  -t clearlinux:latest . --file dockerfiles/Dockerfile.clearlinux
         docker image ls
-        docker image history ubuntu2104:ansible
+        docker image history clearlinux:latest
         docker system df -v               
-        docker image inspect ubuntu2104:ansible
+        docker image inspect clearlinux:latest
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --syntax-check
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --check #dry-run
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml
