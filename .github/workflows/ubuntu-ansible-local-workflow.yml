@@ -12,9 +12,10 @@ jobs:
     name: "docker ubuntu2104 ansible ubuntu 20.04"
     runs-on: ubuntu-latest
     env:
-      distribution: "archlinux" #https://hub.docker.com/_/archlinux
+      distribution: "ubuntu" #https://hub.docker.com/_/archlinux
       version: "latest"
-      name: "archlinux:ansible"
+      # name: "archlinux:ansible"
+      name: "ubuntu2104:ansible"
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
