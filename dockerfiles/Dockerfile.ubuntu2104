@@ -9,3 +9,4 @@ RUN add-apt-repository --yes --update ppa:ansible/ansible & apt-get install ansi
 #testing
 RUN ansible --version
 
+WORKDIR /home/ansible

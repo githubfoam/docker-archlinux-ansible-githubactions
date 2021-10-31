@@ -11,3 +11,4 @@ RUN swupd update
 #testing
 RUN ansible --version
 
+WORKDIR /home/ansible
