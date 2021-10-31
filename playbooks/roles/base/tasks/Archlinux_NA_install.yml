@@ -1,0 +1,57 @@
+---
+# - name: "Load a variable file based on the OS type, or a default if not found"
+#   include_vars: "{{ item }}"
+#   with_first_found:
+#       - "{{ ansible_distribution }}.yml"
+#       - "{{ ansible_os_family }}.yml"
+#       - "{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
+#       - default.yml
+
+# - name: "Install system packages"
+#   package:
+#     name: '{{ system_packages }}'
+#     use: '{{ ansible_pkg_mgr }}'
+#     state: present
+
+- name: "Synchronising package databases"
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: "Install rankmirrors"
+  pacman:
+    name: pacman-contrib
+
+- name: "Backup pacman's mirrorlist"
+  copy:
+    src: /etc/pacman.d/mirrorlist
+    dest: /etc/pacman.d/mirrorlist.backup
+
+- name: "Get latest mirrorlist FR/DE/GB"
+  get_url:
+    url: https://www.archlinux.org/mirrorlist/?country=FR&country=DE&country=GB&protocol=http&protocol=https&ip_version=4
+    dest: /etc/pacman.d/mirrorlist.ansible
+    force: yes
+
+- name: "Uncomment mirrors"
+  replace:
+    path: /etc/pacman.d/mirrorlist.ansible
+    regexp: ^#Server
+    replace: Server
+
+- name: "Include multilib pacman repository"
+  replace:
+    path: /etc/pacman.conf
+    regexp: '#\[multilib\]\n#(Include.+)'
+    replace: '[multilib]\n\1'
+    backup: yes
+
+- name: "Rank pacman's mirrors"
+  shell: /usr/bin/rankmirrors /etc/pacman.d/mirrorlist.ansible > /etc/pacman.d/mirrorlist
+
+- name: pacman -Syu
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- include_tasks: pacman.yml

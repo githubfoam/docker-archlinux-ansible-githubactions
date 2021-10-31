@@ -1,23 +1,74 @@
 ---
-- name: "Synchronising package databases"
-  pacman:
-    update_cache: yes
-    upgrade: yes
 
-- name: "Install rankmirrors"
-  pacman:
-    name: pacman-contrib
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname].ansible_os_family 
+    # verbosity: 4
 
-- name: "Backup pacman's mirrorlist"
-  copy:
-    src: /etc/pacman.d/mirrorlist
-    dest: /etc/pacman.d/mirrorlist.backup
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname].ansible_distribution
 
-- name: "Get latest mirrorlist FR/DE/GB"
-  get_url:
-    url: https://www.archlinux.org/mirrorlist/?country=FR&country=DE&country=GB&protocol=http&protocol=https&ip_version=4
-    dest: /etc/pacman.d/mirrorlist.ansible
-    force: yes
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname].ansible_distribution_major_version
+
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname].ansible_distribution_release
+
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname].ansible_distribution_versio
+
+- name: "Display all variables/facts known for a host"
+  debug:
+    var: hostvars[inventory_hostname] 
+    verbosity: 4
+
+- name: "Install {{ ansible_distribution }}-{{ ansible_distribution_version }}"
+  include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_version }}_install.yml"
+
+# - name: "OS fingerprinting "
+#   debug:
+#     msg: 
+#     - "Provisioning based on YOUR_KEY which is: {{ lookup('env', 'YOUR_KEY') }}"
+
+# - name: "OS fingerprinting "
+#   debug:
+#     msg: 
+#       - "System {{ inventory_hostname }} has gateway {{ ansible_default_ipv4.gateway }}"
+
+# - debug:
+#     msg:
+#     - "Provisioning based on YOUR_KEY which is: {{ lookup('env', 'YOUR_KEY') }}"
+#     - "These servers were built using the password of '{{ password_used }}'. Please retain this for later use."
+
+# - name: "OS fingerprinting "
+#   debug:
+#     msg:
+#     - " ansible_os_family: {{ hostvars[inventory_hostname].ansible_os_family }} "
+
+
+# - name: "Synchronising package databases"
+#   pacman:
+#     update_cache: yes
+#     upgrade: yes
+
+# - name: "Install rankmirrors"
+#   pacman:
+#     name: pacman-contrib
+
+# - name: "Backup pacman's mirrorlist"
+#   copy:
+#     src: /etc/pacman.d/mirrorlist
+#     dest: /etc/pacman.d/mirrorlist.backup
+
+# - name: "Get latest mirrorlist FR/DE/GB"
+#   get_url:
+#     url: https://www.archlinux.org/mirrorlist/?country=FR&country=DE&country=GB&protocol=http&protocol=https&ip_version=4
+#     dest: /etc/pacman.d/mirrorlist.ansible
+#     force: yes
 
 # - name: "Uncomment mirrors"
 #   replace:
