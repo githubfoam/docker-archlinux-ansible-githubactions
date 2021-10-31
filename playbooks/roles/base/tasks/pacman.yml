@@ -14,20 +14,20 @@
     name: reflector
   #become: true
 
-- name: update pacman mirrorlist
-  script: update-mirrorlist.sh
-  #become: true
+# - name: update pacman mirrorlist
+#   script: update-mirrorlist.sh
+#   #become: true
 
-- name: Install base metapackage
-  pacman:
-    name: base
-  #become: true
+# - name: Install base metapackage
+#   pacman:
+#     name: base
+#   #become: true
 
-- name: perform full upgrade
-  pacman:
-    upgrade: true
-    update_cache: true
-  #become: true
+# - name: perform full upgrade
+#   pacman:
+#     upgrade: true
+#     update_cache: true
+#   #become: true
 
 
 # - name: Install filesystem tools

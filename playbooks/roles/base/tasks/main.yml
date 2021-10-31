@@ -19,12 +19,12 @@
 
 - name: "Display all variables/facts known for a host"
   debug:
-    var: hostvars[inventory_hostname].ansible_distribution_versio
+    var: hostvars[inventory_hostname].ansible_distribution_version
 
 - name: "Display all variables/facts known for a host"
   debug:
     var: hostvars[inventory_hostname] 
-    verbosity: 4
+    verbosity: 3
 
 - name: "Install {{ ansible_distribution }}-{{ ansible_distribution_version }}"
   include_tasks: "{{ ansible_distribution }}_{{ ansible_distribution_version }}_install.yml"
