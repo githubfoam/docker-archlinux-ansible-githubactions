@@ -1,0 +1,20 @@
+---
+- name: "Synchronising package databases"
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: "Install rankmirrors"
+  pacman:
+    name: pacman-contrib
+
+- name: "Backup pacman's mirrorlist"
+  copy:
+    src: /etc/pacman.d/mirrorlist
+    dest: /etc/pacman.d/mirrorlist.backup
+
+- name: "Get latest mirrorlist FR/DE/GB"
+  get_url:
+    url: https://www.archlinux.org/mirrorlist/?country=FR&country=DE&country=GB&protocol=http&protocol=https&ip_version=4
+    dest: /etc/pacman.d/mirrorlist.ansible
+    force: yes
