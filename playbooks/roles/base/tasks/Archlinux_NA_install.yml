@@ -34,4 +34,4 @@
 #     update_cache: yes
 #     upgrade: yes
 
-- include_tasks: pacman.yml
+# - include_tasks: pacman.yml
