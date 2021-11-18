@@ -15,6 +15,8 @@ jobs:
       distribution: "kalilinux" #https://hub.docker.com/_/archlinux
       version: "latest"
       name: "kalilinux/ansible"
+      dockerfiledir: "dockerfiles"
+      dockerfilename: "Dockerfile.kalilinux.kali-tools-forensics"
     steps:
     - uses: actions/checkout@v2
     - name: "os fingerprinting"
