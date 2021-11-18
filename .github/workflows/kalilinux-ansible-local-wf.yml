@@ -37,13 +37,13 @@ jobs:
         # sudo docker build --no-cache --rm  -t archlinux:ansible . --file dockerfiles/Dockerfile.archlinux 
         sudo docker build --no-cache --rm  -t ${name}:${version} . --file ${dockerfiledir}/${dockerfilename} 
         docker image ls
-        docker image history archlinux:ansible
+        docker image history ${name}:${version}
         docker system df -v               
-        docker image inspect archlinux:ansible
+        docker image inspect ${name}:${version}
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --syntax-check
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml --check #dry-run
         # sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbook.yml
-        sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name} ansible-playbook -vvv /home/ansible/playbooks/playbook-kalilinux.yml
+        sudo docker run -e ANSIBLE_FORCE_COLOR=1 --privileged --volume="${PWD}":/home/ansible:ro ${name}:${version} ansible-playbook -vvv /home/ansible/playbooks/playbook-kalilinux.yml
  
                          
 
