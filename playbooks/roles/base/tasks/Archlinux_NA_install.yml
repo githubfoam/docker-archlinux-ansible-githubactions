@@ -29,9 +29,9 @@
 - name: "Rank pacman's mirrors"
   shell: /usr/bin/rankmirrors /etc/pacman.d/mirrorlist.ansible > /etc/pacman.d/mirrorlist
 
-- name: pacman -Syu
-  pacman:
-    update_cache: yes
-    upgrade: yes
+# - name: pacman -Syu
+#   pacman:
+#     update_cache: yes
+#     upgrade: yes
 
 - include_tasks: pacman.yml
